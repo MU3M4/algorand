@@ -1,6 +1,6 @@
 import React from 'react';
 import {Dropdown, Spinner, Stack} from 'react-bootstrap';
-import {microAlgosToString, truncateAddress} from '../utils/conversions';
+import {microAlgosToString, truncateAddress} from './utils/conversions';
 import Identicon from './utils/Identicon'
 import PropTypes from "prop-types";
 
