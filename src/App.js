@@ -1,73 +1,25 @@
-import React, {useState} from "react";
-import Cover from "./components/Cover";
+import { ChatEngine } from 'react-chat-engine';
+import React from 'react';
+import ChatFeed from './components/ChatFeed';
+import LoginForm from './components/LoginForm';
 import './App.css';
-import Wallet from "./components/Wallet";
-import {Container, Nav} from "react-bootstrap";
-// import Products from "./components/marketplace/Products";
-// import {Notification} from "./components/utils/Notifications";
-import {indexerClient, myAlgoConnect} from "../src/components/utils/constants";
-import coverImg from "./assets/img/project.jpg"
 
-const App = function AppWrapper() {
+const projectID = '1b7801d6-8a66-4be4-a442-89219d833dfc';
 
-    const [address, setAddress] = useState(null);
-    const [name, setName] = useState(null);
-    const [balance, setBalance] = useState(0);
+const App = () => {
+  if (!localStorage.getItem('username')) return <LoginForm />;
 
-    const fetchBalance = async (accountAddress) => {
-        indexerClient.lookupAccountByID(accountAddress).do()
-            .then(response => {
-                const _balance = response.account.amount;
-                setBalance(_balance);
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    };
+  return (
+    <ChatEngine
+      height="100vh"
+      projectID={projectID}
+      userName={localStorage.getItem('username')}
+      userSecret={localStorage.getItem('password')}
+      renderChatFeed={(chatAppProps) => <ChatFeed {...chatAppProps} />}
+      onNewMessage={() => new Audio('https://chat-engine-assets.s3.amazonaws.com/click.mp3').play()}
+    />
+  );
+};
 
-    const connectWallet = async () => {
-        myAlgoConnect.connect()
-            .then(accounts => {
-                const _account = accounts[0];
-                setAddress(_account.address);
-                setName(_account.name);
-                fetchBalance(_account.address);
-            }).catch(error => {
-            console.log('Could not connect to MyAlgo wallet');
-            console.error(error);
-        })
-    };
-
-    const disconnect = () => {
-        setAddress(null);
-        setName(null);
-        setBalance(null);
-    };
-    return (
-        <>
-            {/* <Notification /> */}
-            {address ? (
-                <Container fluid="md">
-                    <Nav className="justify-content-end pt-3 pb-5">
-                        <Nav.Item>
-                            <Wallet
-                                address={address}
-                                name={name}
-                                amount={balance}
-                                disconnect={disconnect}
-                                symbol={"ALGO"}
-                            />
-                        </Nav.Item>
-                    </Nav>
-                    <main>
-                        {/* <Products address={address} fetchBalance={fetchBalance}/> */}
-                    </main>
-                </Container>
-            ) : (
-                <Cover name={"Telemedicine"} coverImg={coverImg} connect={connectWallet}/>
-            )}
-        </>
-    );
-}
 
 export default App;
