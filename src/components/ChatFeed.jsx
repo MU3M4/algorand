@@ -12,7 +12,7 @@ const renderMessages = () => {
         const lastMessageKey = index === 0 ? null : keys[index -1];
         const isMyMessage = userName === message.sender.username;
         return (
-            <div key={'msg_ ${index}'} style ={{width: '100%'}}>
+            <div key={`msg_ ${index}`} style ={{width: '100%'}}>
                 <div className="message-block"> 
                     {
                         isMyMessage ? <MyMessage message ={message} />
@@ -34,7 +34,7 @@ return (
        
             <div className ='chat-title'>{chat.title}</div>
             <div className ='chat-subtitle'>{
-                    chat.people.map((person) => ' ${person.person.username}')}  
+                    chat.people.map((person) => `${person.person.username}` )}  
                     </div>
                     </div>   
         

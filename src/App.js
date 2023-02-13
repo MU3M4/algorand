@@ -1,10 +1,10 @@
 import { ChatEngine } from 'react-chat-engine';
 import React from 'react';
-import ChatFeed from './components/ChatFeed';
-import LoginForm from './components/LoginForm';
+import ChatFeed from './components/ChatFeed.jsx';
+import LoginForm from './components/LoginForm.jsx';
 import './App.css';
 
-const projectID = '1b7801d6-8a66-4be4-a442-89219d833dfc';
+const projectID = '6fedfc49-da4b-4e22-b988-d89b281fcd14';
 
 const App = () => {
   if (!localStorage.getItem('username')) return <LoginForm />;
